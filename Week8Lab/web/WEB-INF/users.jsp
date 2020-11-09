@@ -1,8 +1,3 @@
-<%-- 
-    Document   : users
-    Created on : Oct 27, 2020, 10:43:27 AM
-    Author     : 760483
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,7 +29,7 @@
                         <br/>
                         <select name="role">
                             <c:forEach items="${role}" var="read">    
-                                <option value="${read.roleID}">${read.roleName}</option>
+                                <option value="${read.roleId}">${read.roleName}</option>
                             </c:forEach>
                         </select><br/>
                         <input type="hidden" name="action" value="add">
@@ -92,7 +87,7 @@
                             <td>${read.lastName}</td>
                             <td>
                                 <c:forEach items="${role}" var="readA">    
-                                    <c:if test="${read.role eq readA.roleID}">${readA.roleName}</c:if>
+                                    <c:if test="${read.role.roleId eq readA.roleId}">${readA.roleName}</c:if>
                                 </c:forEach>
                             </td>
                             <td>

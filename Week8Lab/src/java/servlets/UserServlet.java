@@ -1,5 +1,6 @@
 package servlets;
 
+import dataaccess.RoleJpaController;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -8,8 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Role;
-import models.User;
+import entity.Role;
+import entity.User;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import services.RoleServices;
 import services.UserService;
 
@@ -52,13 +55,16 @@ public class UserServlet extends HttpServlet {
 
         if (userEmail == null || userEmail.isEmpty()) {
             String email = request.getParameter("email");
-            int active = 1;
+            boolean active = true;
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String password = request.getParameter("password");
             int role = Integer.parseInt(request.getParameter("role"));
-
-            newUser = new User(email, active, firstName, lastName, password, role);            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Week9LabPU");
+            RoleJpaController roleController = new RoleJpaController(emf);
+            //Role newRole = new Role();
+            newUser = new User(email, active, firstName, lastName, password);            
+            newUser.setRole(roleController.findRole(role));
         }
 
         try {
@@ -67,13 +73,13 @@ public class UserServlet extends HttpServlet {
                     users.insert(newUser);
                     break;
                 case "update":
-                    users.update(newUser);
+                  //  users.edit(newUser);
                     break;
                 case "delete":
-                    users.delete(userEmail);
+                  //  users.delete(userEmail);
                     break;
                 case "edit":
-                    request.setAttribute("editUser", users.get(userEmail));
+                 //   request.setAttribute("editUser", users.get(userEmail));
                     break;
             }
         } catch (Exception ex) {

@@ -5,44 +5,47 @@
  */
 package services;
 
-import dataaccess.UserDB;
+import dataaccess.UserJpaController;
 import java.util.List;
-import models.User;
+import entity.User;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 /**
  *
  * @author 829942
  */
 public class UserService {
     
-    public User get(String email) throws Exception {
-        UserDB userDB = new UserDB();
-        User user = userDB.get(email);
-        return user;
-    }
-    
+//    public User get(String email) throws Exception {
+//        UserDB userDB = new UserDB();
+//        User user = userDB.get(email);
+//        return user;
+//    }
+//    
     public List<User> getAll() throws Exception {
-        UserDB userDB = new UserDB();
-        List<User> users = userDB.getAll();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Week9LabPU");
+        UserJpaController userController = new UserJpaController(emf);
+        List<User> users = userController.findUserEntities();
         return users;
     }
-    
-    
+//    
+//    
     public void insert(User thisUser) throws Exception {
-        User user = thisUser;
-        UserDB userDB = new UserDB();
-        userDB.insert(user);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Week9LabPU");
+        UserJpaController userController = new UserJpaController(emf);
+        userController.create(thisUser);
+
     }
-    
-    public void update(User thisUser) throws Exception {
-        User user = thisUser;
-        UserDB userDB = new UserDB();
-        userDB.update(user);
-    }
-    
-    public void delete(String email) throws Exception {
-        UserDB userDB = new UserDB();
-        userDB.delete(email);
-    }
+//    
+//    public void update(User thisUser) throws Exception {
+//        User user = thisUser;
+//        UserDB userDB = new UserDB();
+//        userDB.update(user);
+//    }
+//    
+//    public void delete(String email) throws Exception {
+//        UserDB userDB = new UserDB();
+//        userDB.delete(email);
+//    }
    
-    
 }

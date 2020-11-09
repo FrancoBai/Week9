@@ -5,9 +5,11 @@
  */
 package services;
 
-import dataaccess.RoleDB;
+import dataaccess.RoleJpaController;
 import java.util.List;
-import models.Role;
+import entity.Role;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -15,8 +17,9 @@ import models.Role;
  */
 public class RoleServices {
     public List<Role> getAll() throws Exception {
-        RoleDB roleDB = new RoleDB();
-        List<Role> roles = roleDB.getAll();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Week9LabPU");
+        RoleJpaController roleController = new RoleJpaController(emf);
+        List<Role> roles = roleController.findRoleEntities();
         return roles;
     }
 }
